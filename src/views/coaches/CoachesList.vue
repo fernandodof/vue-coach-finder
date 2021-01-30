@@ -10,7 +10,8 @@
 			<base-card>
 				<div class="controls">
 					<base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
-					<base-button v-if="!isLoading && !isCoach" link to="/register">Register as a coach</base-button>
+					<base-button link to="/auth?redirect=register" v-if="!isLoggedIn">Login to register</base-button>
+					<base-button v-if="shouldShowRegisterButton" link to="/register">Register as a coach</base-button>
 				</div>
 
 				<base-spinner v-if="isLoading"></base-spinner>
@@ -36,11 +37,13 @@
 <script>
 import CoachItem from '../../components/coaches/CoachItem.vue';
 import CoachFilter from '../../components/coaches/CoachFilter.vue';
+import BaseButton from '../../components/ui/BaseButton.vue';
 
 export default {
 	components: {
 		CoachItem,
-		CoachFilter
+		CoachFilter,
+		BaseButton
 	},
 	data() {
 		return {
@@ -50,7 +53,8 @@ export default {
 				frontend: true,
 				backend: true,
 				carrer: true
-			}
+			},
+			currentPage: 1
 		};
 	},
 	computed: {
@@ -75,9 +79,18 @@ export default {
 		},
 		isCoach() {
 			return this.$store.getters['coaches/isCoach'];
+		},
+		isLoggedIn() {
+			return this.$store.getters['isAuthenticated'];
+		},
+		shouldShowRegisterButton() {
+			return this.isLoggedIn && !this.isLoading && !this.isCoach;
 		}
 	},
 	methods: {
+		onPageChange(page) {
+			this.currentPage = page;
+		},
 		setFilters(filters) {
 			this.filters = filters;
 		},

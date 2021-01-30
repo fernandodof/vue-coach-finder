@@ -1,8 +1,9 @@
 export default {
 	async register(context, payload) {
 		const id = context.rootGetters.userId;
+		const token = context.rootGetters.token;
 
-		const response = await fetch(`https://vue-http-3eb7f-default-rtdb.firebaseio.com/coaches/${id}.json`, {
+		const response = await fetch(`https://vue-http-3eb7f-default-rtdb.firebaseio.com/coaches/${id}.json?auth=${token}`, {
 			method: 'PUT',
 			body: JSON.stringify(payload)
 		});

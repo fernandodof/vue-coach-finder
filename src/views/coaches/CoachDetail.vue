@@ -9,6 +9,7 @@
 			</section>
 			<section>
 				<base-card>
+					<base-button link mode="outline" v-if="contactLink" :to="contactLink">Contact</base-button>
 					<header>
 						<h2>Interested? Reach out now!</h2>
 					</header>
@@ -39,7 +40,7 @@ export default {
 			return `${this.selectedCoach.firstName} ${this.selectedCoach.lastName}`;
 		},
 		contactLink() {
-			return `${this.$route.path}/${this.id}/contact`;
+			return this.$route.path.includes('contact') ? '' : `${this.$route.path}/contact`;
 		}
 	}
 };

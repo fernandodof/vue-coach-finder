@@ -1,7 +1,6 @@
 export default {
 	async contactCoach(context, payload) {
 		const newRequest = {
-			coachId: payload.coachId,
 			userEmail: payload.email,
 			message: payload.message
 		};
@@ -24,7 +23,9 @@ export default {
 	},
 	async fetchRequests(context) {
 		const coachId = context.rootGetters.userId;
-		const response = await fetch(`https://vue-http-3eb7f-default-rtdb.firebaseio.com/requests/${coachId}.json`);
+		const token = context.rootGetters.token;
+
+		const response = await fetch(`https://vue-http-3eb7f-default-rtdb.firebaseio.com/requests/${coachId}.json?auth=${token}`);
 
 		const responseData = await response.json();
 

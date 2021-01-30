@@ -4,11 +4,33 @@
 			<h1><router-link to="/">Find a coach</router-link></h1>
 			<ul>
 				<li><router-link to="/coaches">All Coaches</router-link></li>
-				<li><router-link to="/requests">Requests</router-link></li>
+				<template v-if="isLoggedIn">
+					<li><router-link to="/requests">Requests</router-link></li>
+					<li><base-button @click="logout">Logout</base-button></li>
+				</template>
+				<li v-else>
+					<router-link to="/auth">Login</router-link>
+				</li>
 			</ul>
 		</nav>
 	</header>
 </template>
+
+<script>
+export default {
+	computed: {
+		isLoggedIn() {
+			return this.$store.getters['isAuthenticated'];
+		}
+	},
+	methods: {
+		logout() {
+			this.$store.dispatch('logout');
+			this.$router.replace('/coaches');
+		}
+	}
+};
+</script>
 
 <style lang="scss" scoped>
 header {
