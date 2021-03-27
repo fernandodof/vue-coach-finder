@@ -1,5 +1,7 @@
 # coach-finder
 
+Project as part of a tutorial to practice vue
+
 ## Project setup
 ```
 npm install
